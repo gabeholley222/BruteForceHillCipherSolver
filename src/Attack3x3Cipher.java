@@ -3,15 +3,18 @@ import java.util.*;
 
 public class Attack3x3Cipher {
 	
+	static StringBuilder contentBuilder = new StringBuilder();
 	static Scanner sc = new Scanner(System.in);
 	static int[][]matrix = new int[3][3];
 	static int[][]inverseMatrix = new int[3][3];
 	static int[][]a = new int[3][3];
 	static int[][]b = new int[3][3];
+	static int textToInt;
 	
 	static int[] ALPHABET = new int[26];
 	
 	static String cipherText;
+	static String textConvert;
 	
 	/**
 	 * Start program
@@ -25,6 +28,7 @@ public class Attack3x3Cipher {
 		}else{
 			String filePath = "C:/Users/gabeh/Documents/MAT391/CipherText3x3.txt";
 			System.out.println(readCipherText(filePath));
+			stringToInt(contentBuilder);
 			//getAllMatrices();
 		}
 	}
@@ -168,7 +172,6 @@ public class Attack3x3Cipher {
 	 */
 	public static String readCipherText(String filePath) 
 	{
-	    StringBuilder contentBuilder = new StringBuilder();
 	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) 
 	    {
 	        while ((cipherText = br.readLine()) != null) 
@@ -181,6 +184,19 @@ public class Attack3x3Cipher {
 	        e.printStackTrace();
 	    }
 	    return contentBuilder.toString();
+	}
+	/**
+	 * Convert cipherText file into meaningful integers corresponding to A-Z = 0-25
+	 * @param contentBuilder
+	 * @return
+	 */
+	public static int stringToInt(StringBuilder contentBuilder) {
+		for(int i = 0; i < contentBuilder.length() - 1; i++) {
+			char character = contentBuilder.charAt(i);
+			textToInt = (int)character - (int)'A';
+			System.out.println(textToInt + " ");
+		}
+		return 0;
 	}
 	
 	public static void exit() {
