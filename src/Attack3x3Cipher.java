@@ -5,7 +5,9 @@ public class Attack3x3Cipher {
 	
 	static Scanner sc = new Scanner(System.in);
 	static int[][]matrix = new int[3][3];
-	static int[][]decrypt = new int[3][1];
+	static int[][]inverseMatrix = new int[3][3];
+	static int[][]a = new int[3][3];
+	static int[][]b = new int[3][3];
 	
 	static char[] ALPHABET = new char[26];
 	
@@ -31,44 +33,44 @@ public class Attack3x3Cipher {
 	public static void setupMatrix() {
 		for(int j=0;j<3;j++) {
 			for(int k=0; k<3; k++) {
-				System.out.print(matrix[j][k] + " ");
+				//System.out.print(matrix[j][k] + " ");
 			}
-			System.out.print("\n");
+			//System.out.print("\n");
 		}
 	}
 	/**
 	 * Sequence to get every matrix possibility for 3x3 matrix from 0-25
 	 */
 	public static void getAllMatrices() {
-		for(int i=0; i<2; i++) {
+		for(int i=0; i<8; i++) {
 			matrix[2][2] = i;
 			setupMatrix();
-			for(int j=0; j<2; j++) {
+			for(int j=0; j<8; j++) {
 				matrix[2][1] = j;
 				setupMatrix();
-				for(int k=0; k<2; k++) {
+				for(int k=0; k<8; k++) {
 					matrix[2][0] = k;
 					setupMatrix();
-					for(int l=0; l<2; l++) {
+					for(int l=0; l<8; l++) {
 						matrix[1][2] = l;
 						setupMatrix();
-						for(int m=0; m<2; m++) {
+						for(int m=0; m<8; m++) {
 							matrix[1][1] = m;
 							setupMatrix();
-							for(int n=0; n<2; n++) {
+							for(int n=0; n<8; n++) {
 								matrix[1][0] = n;
 								setupMatrix();
-								for(int o=0; o<2; o++) {
+								for(int o=0; o<8; o++) {
 									matrix[0][2] = o;
 									setupMatrix();
-									for(int p=0; p<2; p++) {
+									for(int p=0; p<8; p++) {
 										matrix[0][1] = p;
 										setupMatrix();
-										for(int q=0; q<2; q++) {
+										for(int q=0; q<8; q++) {
 											matrix[0][0] = q;
 											setupMatrix();
-											invertMatrix();
-											checkResult();
+											invertMatrix(matrix);
+											//checkResult();
 										}
 									}
 								}
@@ -82,19 +84,57 @@ public class Attack3x3Cipher {
 	/**
 	 * Checks to see if matrix is invertible. Uses inverted matrix to check against cipherText
 	 */
-	public static void invertMatrix() {
+	public static void invertMatrix(int matrix[][]) {
 		int p, q;
-		int[][]alphaIndex = matrix;
-		for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-            	if(i == j) {
-            		
+		int convert[][] = new int[3][3];
+		for(int i = 0; i < 3; i++) 
+        	for(int j = 0; j < 3; j++) 
+        		convert[i][j] = matrix[i][j];
+		System.out.println("\n");
+        for(int i = 0; i < 3; i++) 
+        	for(int j = 0; j < 3; j++) { 
+        		System.out.print(convert[i][j] + " ");
+        		if(i == j) 
+        			inverseMatrix[i][j] = 1; 
+                else 
+                	inverseMatrix[i][j] = 0; 
+        	} 
+        for(int k = 0; k < 3; k++) { 
+             for(int i = 0; i < 3; i++) { 
+                  p = convert[i][k]; 
+                  q = convert[k][k]; 
+                  for(int j = 0; j < 3; j++) { 
+                	  if(i != k) { 
+                    	    convert[i][j] = convert[i][j] * q - p * convert[k][j]; 
+                            inverseMatrix[i][j] = inverseMatrix[i][j] * q - p * inverseMatrix[k][j]; 
+                      } 
+                  } 
+             } 
+        } 
+        for(int i = 0; i < 3; i++) {
+        	for (int j = 0; j < 3; j++) { 
+        		if(convert[i][i] != 0) {
+        			inverseMatrix[i][j] = inverseMatrix[i][j] / convert[i][i];
             	}
-            		
-            		
-            }
-		}
-	}
+            } 
+        }
+        System.out.println("\nInverse Matrix: ");
+        for(int i = 0; i < 3; i++) { 
+        	for(int j = 0; j < 3; j++) {
+        		if(inverseMatrix[i][0] == 0 && inverseMatrix[i][1] == 0 && inverseMatrix[i][2] == 0) {
+        		}else {	
+        			inverseMatrix[i][j] %= 26;
+        			System.out.print(inverseMatrix[i][j]%26 + " ");
+        		}
+        	}
+        System.out.print("\n");
+        }
+        if(inverseMatrix[0][0] == 0 && inverseMatrix[0][1] == 0 && inverseMatrix[0][2] == 0
+           && inverseMatrix[1][0] == 0 && inverseMatrix[1][1] == 0 && inverseMatrix[1][2] == 0
+           && inverseMatrix[2][0] == 0 && inverseMatrix[2][1] == 0 && inverseMatrix[2][2] == 0) {
+        }
+       //  getResult();?
+   }
 	
 	/**
 	 * Converts a character to a number (0-25)
