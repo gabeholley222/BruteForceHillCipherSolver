@@ -9,7 +9,10 @@ public class Attack3x3Cipher {
 	
 	static char[] ALPHABET = new char[26];
 	
-	
+	/**
+	 * Start program
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println("Decrypt 3x3 Matrix?(Yes = 1, No = 0) This may take a few minutes.");
 		int response = sc.nextInt();
@@ -19,7 +22,12 @@ public class Attack3x3Cipher {
 			getAllMatrices();
 		}
 	}
-		
+	/**
+	 * Set up initial matrix layout
+	 * (a	b	c)
+	 * (d	e	f)
+	 * (g	h	i)	
+	 */
 	public static void setupMatrix() {
 		for(int j=0;j<3;j++) {
 			for(int k=0; k<3; k++) {
@@ -28,6 +36,9 @@ public class Attack3x3Cipher {
 			System.out.print("\n");
 		}
 	}
+	/**
+	 * Sequence to get every matrix possibility for 3x3 matrix from 0-25
+	 */
 	public static void getAllMatrices() {
 		for(int i=0; i<2; i++) {
 			matrix[2][2] = i;
