@@ -9,7 +9,9 @@ public class Attack3x3Cipher {
 	static int[][]a = new int[3][3];
 	static int[][]b = new int[3][3];
 	
-	static char[] ALPHABET = new char[26];
+	static int[] ALPHABET = new int[26];
+	
+	static String cipherText;
 	
 	/**
 	 * Start program
@@ -21,7 +23,9 @@ public class Attack3x3Cipher {
 		if(response == 0) {
 			exit();
 		}else{
-			getAllMatrices();
+			String filePath = "C:/Users/gabeh/Documents/MAT391/CipherText3x3.txt";
+			System.out.println(readCipherText(filePath));
+			//getAllMatrices();
 		}
 	}
 	/**
@@ -137,17 +141,17 @@ public class Attack3x3Cipher {
    }
 	
 	/**
-	 * Converts a character to a number (0-25)
+	 * Makes letters A-Z in the format of 0-25
 	 * @param alphaIndex
 	 * @return A number 0-25
 	 */
-	public static int toNumber(char alphaIndex) {
+	public static int toNumber() {
+		int alphaIndex = 0;
 		for (int i = 0; i < ALPHABET.length; i++) {
-			if (alphaIndex == ALPHABET[i]) {
-				return i;
-			}
+			alphaIndex = i;
+			System.out.println(alphaIndex);
 		}
-		return -1;
+		return alphaIndex;
 	}
 	/**
 	 * Checks the result of the (3x3inverse)*(3x1cipherText)%26 and prints out result.
@@ -155,7 +159,29 @@ public class Attack3x3Cipher {
 	 */
 	public static void checkResult() {
 		
-	}	
+	}
+	/**
+	 * Read file and convert contents to string.
+	 * Will have to modify file path to work on individual computers.
+	 * @param filePath
+	 * @return
+	 */
+	public static String readCipherText(String filePath) 
+	{
+	    StringBuilder contentBuilder = new StringBuilder();
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) 
+	    {
+	        while ((cipherText = br.readLine()) != null) 
+	        {
+	            contentBuilder.append(cipherText).append("\n");
+	        }
+	    } 
+	    catch (IOException e) 
+	    {
+	        e.printStackTrace();
+	    }
+	    return contentBuilder.toString();
+	}
 	
 	public static void exit() {
 		System.out.println("Ok. Program Stopped.");
