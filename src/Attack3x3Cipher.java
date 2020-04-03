@@ -3,13 +3,18 @@ import java.util.*;
 
 public class Attack3x3Cipher {
 	
+	static StringBuilder contentBuilder = new StringBuilder();
 	static Scanner sc = new Scanner(System.in);
 	static int[][]matrix = new int[3][3];
 	static int[][]inverseMatrix = new int[3][3];
 	static int[][]a = new int[3][3];
 	static int[][]b = new int[3][3];
+	static int textToInt;
 	
-	static char[] ALPHABET = new char[26];
+	static int[] ALPHABET = new int[26];
+	
+	static String cipherText;
+	static String textConvert;
 	
 	/**
 	 * Start program
@@ -21,7 +26,10 @@ public class Attack3x3Cipher {
 		if(response == 0) {
 			exit();
 		}else{
-			getAllMatrices();
+			String filePath = "C:/Users/gabeh/Documents/MAT391/CipherText3x3.txt";
+			System.out.println(readCipherText(filePath));
+			stringToInt(contentBuilder);
+			//getAllMatrices();
 		}
 	}
 	/**
@@ -137,17 +145,17 @@ public class Attack3x3Cipher {
    }
 	
 	/**
-	 * Converts a character to a number (0-25)
+	 * Makes letters A-Z in the format of 0-25
 	 * @param alphaIndex
 	 * @return A number 0-25
 	 */
-	public static int toNumber(char alphaIndex) {
+	public static int toNumber() {
+		int alphaIndex = 0;
 		for (int i = 0; i < ALPHABET.length; i++) {
-			if (alphaIndex == ALPHABET[i]) {
-				return i;
-			}
+			alphaIndex = i;
+			System.out.println(alphaIndex);
 		}
-		return -1;
+		return alphaIndex;
 	}
 	/**
 	 * Checks the result of the (3x3inverse)*(3x1cipherText)%26 and prints out result.
@@ -155,7 +163,41 @@ public class Attack3x3Cipher {
 	 */
 	public static void checkResult() {
 		
-	}	
+	}
+	/**
+	 * Read file and convert contents to string.
+	 * Will have to modify file path to work on individual computers.
+	 * @param filePath
+	 * @return
+	 */
+	public static String readCipherText(String filePath) 
+	{
+	    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) 
+	    {
+	        while ((cipherText = br.readLine()) != null) 
+	        {
+	            contentBuilder.append(cipherText).append("\n");
+	        }
+	    } 
+	    catch (IOException e) 
+	    {
+	        e.printStackTrace();
+	    }
+	    return contentBuilder.toString();
+	}
+	/**
+	 * Convert cipherText file into meaningful integers corresponding to A-Z = 0-25
+	 * @param contentBuilder
+	 * @return
+	 */
+	public static int stringToInt(StringBuilder contentBuilder) {
+		for(int i = 0; i < contentBuilder.length() - 1; i++) {
+			char character = contentBuilder.charAt(i);
+			textToInt = (int)character - (int)'A';
+			System.out.println(textToInt + " ");
+		}
+		return 0;
+	}
 	
 	public static void exit() {
 		System.out.println("Ok. Program Stopped.");
