@@ -9,6 +9,7 @@ public class Attack3x3Cipher {
 	static int[][]inverseMatrix = new int[3][3];
 	static int[][]a = new int[3][3];
 	static int[][]b = new int[3][3];
+	//static int[]intArray = new int[contentBuilder.length() - 1];
 	static int textToInt;
 	
 	static int[] ALPHABET = new int[26];
@@ -194,7 +195,7 @@ public class Attack3x3Cipher {
 		for(int i = 0; i < contentBuilder.length() - 1; i++) {
 			char character = contentBuilder.charAt(i);
 			textToInt = (int)character - (int)'A';
-			System.out.println(textToInt + " ");
+			System.out.print(textToInt + " ");
 		}
 		return 0;
 	}
