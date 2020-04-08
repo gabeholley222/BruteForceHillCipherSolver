@@ -7,13 +7,14 @@ public class Attack3x3Cipher {
 	
 	static StringBuilder contentBuilder = new StringBuilder();
 	static Scanner sc = new Scanner(System.in);
+	
 	static int[][]matrix = new int[3][3];
 	static int[][]inverseMatrix = new int[3][3];
 	static int[][]a = new int[3][3];
 	static int[][]b = new int[3][3];
-	static int[]textToInt = new int[MESSAGE];
 	
 	static int[] ALPHABET = new int[26];
+	static int[]textToInt = new int[MESSAGE];
 	
 	static String cipherText;
 	static String textConvert;
@@ -31,7 +32,7 @@ public class Attack3x3Cipher {
 			String filePath = "C:/Users/gabeh/Documents/MAT391/CipherText3x3.txt";
 			System.out.println(readCipherText(filePath));
 			stringToInt(contentBuilder);
-			//getAllMatrices();
+			getAllMatrices();
 		}
 	}
 	/**
@@ -137,7 +138,7 @@ public class Attack3x3Cipher {
         			System.out.print(inverseMatrix[i][j]%26 + " ");
         		}
         	}
-        System.out.print("\n");
+        	System.out.print("\n");
         }
         if(inverseMatrix[0][0] == 0 && inverseMatrix[0][1] == 0 && inverseMatrix[0][2] == 0
            && inverseMatrix[1][0] == 0 && inverseMatrix[1][1] == 0 && inverseMatrix[1][2] == 0
