@@ -1,6 +1,11 @@
 import java.io.*;
 import java.util.*;
-
+/*
+ * Created By Gabriel Holley
+ * To attack 3x3 enciphered messages 
+ * with possible cribs by brute force.
+ * Expected total run time: To be determined
+ */
 public class Attack3x3Cipher {
 	// This is how many characters are in the Cipher Message (Change value of MESSAGE for different length messages)
 	final static int MESSAGE = 432;
@@ -17,8 +22,9 @@ public class Attack3x3Cipher {
 	static int[]intToText = new int[MESSAGE];
 	static char[]textResult = new char[MESSAGE];
 	
+	static String[]textConvert = new String[MESSAGE];
 	static String cipherText;
-	static String textConvert;
+	static String plainText;
 	
 	/**
 	 * Start program
@@ -55,23 +61,23 @@ public class Attack3x3Cipher {
 	 * Sequence to get every matrix possibility for 3x3 matrix from 0-25
 	 */
 	public static void getAllMatrices() {
-		for(int i=0; i<2; i++) {
+		for(int i=0; i<26; i++) {
 			matrix[2][2] = i;
-			for(int j=0; j<2; j++) {
+			for(int j=0; j<26; j++) {
 				matrix[2][1] = j;
-				for(int k=0; k<2; k++) {
+				for(int k=0; k<26; k++) {
 					matrix[2][0] = k;
-					for(int l=0; l<2; l++) {
+					for(int l=0; l<26; l++) {
 						matrix[1][2] = l;
-						for(int m=0; m<2; m++) {
+						for(int m=0; m<26; m++) {
 							matrix[1][1] = m;
-							for(int n=0; n<2; n++) {
+							for(int n=0; n<26; n++) {
 								matrix[1][0] = n;
-								for(int o=0; o<2; o++) {
+								for(int o=0; o<26; o++) {
 									matrix[0][2] = o;
-									for(int p=0; p<2; p++) {
+									for(int p=0; p<26; p++) {
 										matrix[0][1] = p;
-										for(int q=0; q<2; q++) {
+										for(int q=0; q<26; q++) {
 											matrix[0][0] = q;
 											setupMatrix();
 											checkResult(matrix, textToInt);
@@ -100,30 +106,41 @@ public class Attack3x3Cipher {
 	}
 	/**
 	 * Checks the result of the (3x3inverse)*(3x1cipherText)%26 and prints out result.
-	 * Will be adding a statement to only print strings with suspected cribs.
 	 */
 	public static void checkResult(int matrix[][], int textToInt[]) {
-		for (int i = 0; i < MESSAGE - 1; i+=0) {
+		int counter = 0;
+		for (int i = -1; i < MESSAGE - 1; i+=0) {
 			for (int j = 0; j < 3; j++) {
 				for (int k = 0; k < 3; k++) {
-					result[j][k] = textToInt[i] * matrix[j][k];
-					//System.out.print(result[j][k] + " ");
 					i++;
+					result[j][k] = textToInt[i] * matrix[j][k];
 				}
 				i-=3;
 				int sum = ((result[j][0] + result[j][1] + result[j][2])%26) + 65;
-				//System.out.println(sum + " ");
-				textResult[i] = (char)sum;
-				//textConvert = String.copyValueOf(textResult);
-				//System.out.print(textConvert);
+				textResult[counter] = (char)sum;
+				textConvert[counter] = String.valueOf(textResult[counter]);
+				counter++;
 			}
-			i+=3;
+				i+=3;
 		}
-		/*for(int a = 0; a < MESSAGE - 1; a++) {
-			if((textResult[a] == 'C' && textResult[a+1] == 'C' && textResult[a+1] == 'C')||(textResult[a] == 'T' && textResult[a+1] == 'H' && textResult[a+2] == 'E')) {
-				System.out.print(textResult);
+		StringBuilder sb = new StringBuilder();
+		for(int a = 0; a < MESSAGE - 1; a++) {
+			sb.append(String.valueOf(textConvert[a]));
+		}
+		plainText = sb.toString();
+		/**
+		 * Modify to attack by suspected cribs
+		 * I recommend using larger words
+		 */
+		if(plainText.contains("CENSOR") && plainText.contains("AND") && plainText.contains("THE") && plainText.contains("CIPHER")) {
+			for(int b = 0; b < 3; b++) {
+				for(int c = 0; c < 3; c++) {
+					System.out.print(matrix[b][c]);
+				}
 			}
-		}*/
+			System.out.println();
+			System.out.println(plainText);
+		}
 	}
 	/**
 	 * Read file and convert contents to string.
@@ -157,6 +174,7 @@ public class Attack3x3Cipher {
 			textToInt[i] = (int)character - (int)'A';
 			System.out.print(textToInt[i] + " ");
 		}
+		System.out.println();
 	}
 	public static void exit() {
 		System.out.println("Ok. Program Stopped.");
