@@ -1,0 +1,4 @@
+# BruteForceHillCipherSolver
+These are programs to brute force attack 2x2, 3x3, and 4x4 matrices with suspected cribs.
+Note that 2x2 may take a few moments to give results, while 3x3 and 4x4 will take many many hours if not days to give results.
+I am still testing the 3x3 and 4x4 matrix, but have no useful results at this time after 10 hours of run time. This could mean that my crib words are not good for the text, or I have not reached the solution yet.
