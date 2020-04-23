@@ -31,7 +31,7 @@ public class Attack3x3Cipher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Decrypt 3x3 Matrix?(Yes = 1, No = 0) This may take a few minutes.");
+		System.out.println("Decrypt 3x3 Matrix?(Yes = 1, No = 0) This will take many hours.");
 		int response = sc.nextInt();
 		if(response == 0) {
 			exit();
@@ -132,10 +132,10 @@ public class Attack3x3Cipher {
 		 * Modify to attack by suspected cribs
 		 * I recommend using larger words
 		 */
-		if(plainText.contains("CENSOR") && plainText.contains("AND") && plainText.contains("THE") && plainText.contains("CIPHER")) {
+		if(plainText.contains("CENSOR") && plainText.contains("THE") && plainText.contains("CIPHER")) {
 			for(int b = 0; b < 3; b++) {
 				for(int c = 0; c < 3; c++) {
-					System.out.print(matrix[b][c]);
+					System.out.print(matrix[b][c] + " ");
 				}
 			}
 			System.out.println();
